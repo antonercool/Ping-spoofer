@@ -1,4 +1,5 @@
 from ping_request_sniffer import *
+from ping_package_spoofer import * 
 import time
 
 smart_phone_local_ip = "192.168.87.187"
@@ -8,12 +9,13 @@ unkown_device = "192.168.87.152"
 
 if __name__ == "__main__":
     ping_sniffer = PingRequestSniffer()
+    ping_package_spoofer = PingPackageSpoofer()
 
     while True:
-        print("sniffing for icmp packets")
-        packets =  ping_sniffer.sniff_ping_request(count = 2)
+        print("sniffing for icmp packet")
+        packets =  ping_sniffer.sniff_ping_request(count = 1)
         
-        for pack in packets:
-            pack.show()
-            #pack.getlayer(IP).show()
-            #pack.getlayer(ICMP).show()  
+        if packets[0].getlayer(ICMP).type == 8:
+            print("ECHO request sniifed !!!!! ")
+            spoof_responce = ping_package_spoofer.spoof_reponse(packets[0])
+            ping_package_spoofer.send_spoof_resonse(spoof_responce)
