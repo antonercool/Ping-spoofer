@@ -31,24 +31,21 @@ class PingPackageSpoofer:
         return package
 
     def send_spoof_resonse(self, package):
-        p = sendp(package, iface="Ethernet 3")
-        #print(p)
-    
+        sendp(package, iface="Ethernet 3")
 
     def spoof_ether(self, package, ehter_original):
+        #fetch src, and dst
         dst = ehter_original.dst
         src = ehter_original.src
-
         # redirect
         package.dst = src
         package.src = dst 
 
 
     def spoof_ip(self, package,  ip_original):
-        # fetch dist
+        #fetch src, and dst
         dst = ip_original.dst
         src = ip_original.src
-
         # redirect
         package[IP].dst = src
         package[IP].src = dst 
@@ -56,6 +53,5 @@ class PingPackageSpoofer:
 
     def spoof_icmp(self, package, icmp_original):
         #https://erg.abdn.ac.uk/users/gorry/course/inet-pages/icmp-code.html
-        # type = 3 --> Destination Unreachable, code = 1  --> Host Unreachable
         package[ICMP].type = 0
         package[ICMP].code = 0
