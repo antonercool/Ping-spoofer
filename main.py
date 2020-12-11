@@ -13,9 +13,8 @@ if __name__ == "__main__":
 
     while True:
         print("sniffing for icmp packet")
-        packets =  ping_sniffer.sniff_ping_request(count = 1)
-        
-        if packets[0].getlayer(ICMP).type == 8:
-            print("ECHO request sniifed !!!!! ")
-            spoof_responce = ping_package_spoofer.spoof_reponse(packets[0])
+        packet =  ping_sniffer.sniff_ping_request()
+
+        if len(packet)  != 0:  
+            spoof_responce = ping_package_spoofer.spoof_reponse(packet[0])
             ping_package_spoofer.send_spoof_resonse(spoof_responce)

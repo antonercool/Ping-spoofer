@@ -10,12 +10,10 @@ class PingPackageSpoofer:
         ip_layer = package.getlayer(IP)
         icmp_layer = package.getlayer(ICMP)
 
-        package.show()
         #Copy seq, id from original request and generate new icmp request
        
         self.spoof_ether(package, ehter_layer)
         self.spoof_ip(package, ip_layer)
-        package.show()
         self.spoof_icmp(package, icmp_layer)
        
         # clean up checksums
